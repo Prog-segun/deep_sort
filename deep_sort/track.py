@@ -76,6 +76,8 @@ class Track:
         self.features = []
         if feature is not None:
             self.features.append(feature)
+        self.last_score = None
+        self.class_id = None
 
         self._n_init = n_init
         self._max_age = max_age
@@ -138,6 +140,8 @@ class Track:
         self.mean, self.covariance = kf.update(
             self.mean, self.covariance, detection.to_xyah())
         self.features.append(detection.feature)
+        self.last_score = detection.confidence
+        self.class_id = detection.class_id 
 
         self.hits += 1
         self.time_since_update = 0

@@ -76,7 +76,7 @@ class ImageEncoder(object):
         with tf.compat.v1.gfile.GFile(checkpoint_filename, "rb") as file_handle:
             graph_def = tf.compat.v1.GraphDef()
             graph_def.ParseFromString(file_handle.read())
-        tf.import_graph_def(graph_def, name="net")
+        tf.import_graph_def(graph_def, name="")
 
         self.input_var = tf.compat.v1.get_default_graph().get_tensor_by_name(
             "%s:0" % input_name)
@@ -113,7 +113,7 @@ def create_box_encoder(model_filename, input_name="images",
         image_patches = np.asarray(image_patches)
         return image_encoder(image_patches, batch_size)
 
-    return encoder
+    return image_encoder, encoder
 
 
 def generate_detections(encoder, mot_dir, output_dir, detection_dir=None):
